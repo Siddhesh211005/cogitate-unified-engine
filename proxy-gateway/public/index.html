@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cogitate Rater AI Gateway</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            boxShadow: {
+              glow: "0 0 0 1px rgba(255,255,255,0.1), 0 20px 60px rgba(15,23,42,0.45)",
+            },
+            keyframes: {
+              floatA: {
+                "0%,100%": { transform: "translate3d(0,0,0) scale(1)" },
+                "50%": { transform: "translate3d(18px,-24px,0) scale(1.04)" },
+              },
+              floatB: {
+                "0%,100%": { transform: "translate3d(0,0,0) scale(1)" },
+                "50%": { transform: "translate3d(-22px,20px,0) scale(1.08)" },
+              },
+              appear: {
+                from: { opacity: "0", transform: "translateY(22px)" },
+                to: { opacity: "1", transform: "translateY(0)" },
+              },
+            },
+            animation: {
+              floatA: "floatA 10s ease-in-out infinite",
+              floatB: "floatB 12s ease-in-out infinite",
+              appear: "appear 700ms ease-out both",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html,
+      body {
+        height: 100%;
+      }
+
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+
+      .frost {
+        backdrop-filter: blur(12px);
+      }
+    </style>
+  </head>
+  <body class="bg-slate-950 text-slate-100 antialiased">
+    <div class="relative h-full w-full">
+      <div class="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(56,189,248,0.28),transparent_35%),radial-gradient(circle_at_82%_15%,rgba(249,115,22,0.30),transparent_35%),radial-gradient(circle_at_50%_100%,rgba(59,130,246,0.20),transparent_50%)]"></div>
+      <div class="absolute -left-20 top-24 h-72 w-72 rounded-full bg-cyan-500/25 blur-3xl animate-floatA"></div>
+      <div class="absolute -right-24 bottom-20 h-96 w-96 rounded-full bg-orange-500/20 blur-3xl animate-floatB"></div>
+
+      <main class="relative z-10 mx-auto flex h-full max-w-6xl items-center justify-center px-6 py-10">
+        <section class="frost w-full max-w-3xl rounded-3xl border border-white/15 bg-white/10 p-8 shadow-glow md:p-12 animate-appear">
+          <p class="mb-3 text-sm uppercase tracking-[0.22em] text-cyan-200">Unified Access Gateway</p>
+          <h1 class="mb-3 text-4xl font-semibold leading-tight text-white md:text-6xl">
+            Welcome to Cogitate Rater AI
+          </h1>
+          <p class="mb-10 max-w-2xl text-base text-slate-200/90 md:text-lg">
+            Choose your execution engine. The gateway keeps your browser on port 8080 and routes traffic to the correct frontend and API services behind the scenes.
+          </p>
+
+          <div class="grid gap-4 md:grid-cols-2">
+            <button
+              data-engine="schema"
+              class="engine-btn group rounded-2xl border border-cyan-300/45 bg-cyan-400/10 px-6 py-6 text-left transition duration-300 hover:-translate-y-1 hover:bg-cyan-400/20 focus:outline-none focus:ring-2 focus:ring-cyan-300"
+            >
+              <span class="mb-2 block text-xs uppercase tracking-[0.2em] text-cyan-200">AI Pathway</span>
+              <span class="block text-2xl font-semibold text-white">Schema Rater (AI)</span>
+              <span class="mt-2 block text-sm text-cyan-100/90">React + Vite frontend with schema-driven dynamic rating.</span>
+            </button>
+
+            <button
+              data-engine="excel"
+              class="engine-btn group rounded-2xl border border-orange-300/45 bg-orange-400/10 px-6 py-6 text-left transition duration-300 hover:-translate-y-1 hover:bg-orange-400/20 focus:outline-none focus:ring-2 focus:ring-orange-300"
+            >
+              <span class="mb-2 block text-xs uppercase tracking-[0.2em] text-orange-200">Native Pathway</span>
+              <span class="block text-2xl font-semibold text-white">Excel Rater (Native)</span>
+              <span class="mt-2 block text-sm text-orange-100/90">Next.js frontend with native Excel COM execution on backend.</span>
+            </button>
+          </div>
+
+          <p id="status" class="mt-8 min-h-6 text-sm text-slate-200/80"></p>
+        </section>
+      </main>
+    </div>
+
+    <script>
+      const statusEl = document.getElementById("status");
+      const buttons = Array.from(document.querySelectorAll(".engine-btn"));
+
+      function setBusy(message) {
+        statusEl.textContent = message;
+        buttons.forEach((button) => {
+          button.disabled = true;
+          button.classList.add("opacity-70", "cursor-not-allowed");
+        });
+      }
+
+      function clearBusy(message) {
+        statusEl.textContent = message || "";
+        buttons.forEach((button) => {
+          button.disabled = false;
+          button.classList.remove("opacity-70", "cursor-not-allowed");
+        });
+      }
+
+      async function selectEngine(engine) {
+        setBusy(`Routing to ${engine === "schema" ? "Schema Rater (AI)" : "Excel Rater (Native)"}...`);
+
+        try {
+          const response = await fetch(`/gateway/select/${engine}`, {
+            method: "POST",
+          });
+
+          if (!response.ok) {
+            throw new Error(`Gateway returned ${response.status}`);
+          }
+
+          window.location.assign("/");
+        } catch (error) {
+          clearBusy("Could not connect to gateway. Please retry.");
+          console.error(error);
+        }
+      }
+
+      buttons.forEach((button) => {
+        button.addEventListener("click", () => {
+          selectEngine(button.dataset.engine);
+        });
+      });
+    </script>
+  </body>
+</html>

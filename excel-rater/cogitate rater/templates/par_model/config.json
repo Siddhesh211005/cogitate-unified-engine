@@ -1,0 +1,174 @@
+{
+  "sheet": "Data",
+  "inputs": [
+    {
+      "field": "issue_age",
+      "cell": "'Inputs & Outputs'!D4",
+      "type": "number",
+      "label": "Issue Age",
+      "group": "Client Profile",
+      "default": 30
+    },
+    {
+      "field": "sex",
+      "cell": "'Inputs & Outputs'!D6",
+      "type": "dropdown",
+      "label": "Sex (M/F)",
+      "group": "Client Profile",
+      "options": [
+        "M",
+        "F"
+      ],
+      "default": "M"
+    },
+    {
+      "field": "premium_frequency",
+      "cell": "'Inputs & Outputs'!D8",
+      "type": "dropdown",
+      "label": "Premium Frequency",
+      "group": "Policy Settings",
+      "options": [
+        1,
+        2,
+        4,
+        12
+      ],
+      "default": 1
+    },
+    {
+      "field": "currency",
+      "cell": "'Inputs & Outputs'!D10",
+      "type": "dropdown",
+      "label": "Currency",
+      "group": "Policy Settings",
+      "options": [
+        "HKD",
+        "USD"
+      ],
+      "default": "HKD"
+    },
+    {
+      "field": "smoking_status",
+      "cell": "'Inputs & Outputs'!D12",
+      "type": "dropdown",
+      "label": "Smoking status (NS/S)",
+      "group": "Client Profile",
+      "options": [
+        "NS",
+        "S"
+      ],
+      "default": "S"
+    },
+    {
+      "field": "premium_term",
+      "cell": "'Inputs & Outputs'!D14",
+      "type": "dropdown",
+      "label": "Premium Term",
+      "group": "Policy Settings",
+      "options": [
+        1,
+        5,
+        10
+      ],
+      "default": 10
+    },
+    {
+      "field": "maturity_age",
+      "cell": "'Inputs & Outputs'!D16",
+      "type": "number",
+      "label": "Maturity Age",
+      "group": "Policy Settings",
+      "default": 100
+    },
+    {
+      "field": "sum_assured",
+      "cell": "'Inputs & Outputs'!D18",
+      "type": "number",
+      "label": "Sum Assured (input)",
+      "group": "Financials",
+      "default": 50000
+    },
+    {
+      "field": "death_benefit_option",
+      "cell": "'Inputs & Outputs'!D20",
+      "type": "dropdown",
+      "label": "Death Benefit Option",
+      "group": "Financials",
+      "options": [
+        1,
+        2
+      ],
+      "default": 1
+    },
+    {
+      "field": "death_benefit_pct",
+      "cell": "'Inputs & Outputs'!D22",
+      "type": "number",
+      "label": "Death Benefit (% of TPP)",
+      "group": "Financials",
+      "default": 1.01
+    },
+    {
+      "field": "int_rate",
+      "cell": "'Inputs & Outputs'!D24",
+      "type": "number",
+      "label": "Int Rate on Acc Div",
+      "group": "Financials",
+      "default": 0.04
+    },
+    {
+      "field": "rider_purchase",
+      "cell": "'Inputs & Outputs'!D26",
+      "type": "dropdown",
+      "label": "Rider Purchase",
+      "group": "Policy Settings",
+      "options": [
+        "Y",
+        "N"
+      ],
+      "default": "Y"
+    }
+  ],
+  "outputs": [
+    {
+      "field": "premium_rate",
+      "cell": "'Inputs & Outputs'!H4",
+      "type": "number",
+      "label": "Premium Rate",
+      "group": "General",
+      "primary": false
+    },
+    {
+      "field": "modal_premium",
+      "cell": "'Inputs & Outputs'!H6",
+      "type": "number",
+      "label": "Modal Premium",
+      "group": "General",
+      "primary": false
+    },
+    {
+      "field": "benefit_term",
+      "cell": "'Inputs & Outputs'!H8",
+      "type": "number",
+      "label": "Benefit Term",
+      "group": "General",
+      "primary": false
+    },
+    {
+      "field": "annualized_premium",
+      "cell": "'Inputs & Outputs'!H10",
+      "type": "number",
+      "label": "Annualized Premium",
+      "group": "General",
+      "primary": false
+    },
+    {
+      "field": "premium",
+      "cell": "'Inputs & Outputs'!H12",
+      "type": "number",
+      "label": "Premium After Discount",
+      "group": "General",
+      "primary": true
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "name": "cogitate-unified-engine",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Unified dev runner for Schema Rater, Excel Rater, and Proxy Gateway",
+  "scripts": {
+    "dev": "concurrently -k --names PROXY,SCHEMA-FE,SCHEMA-BE,EXCEL-FE,EXCEL-BE -c cyan,magenta,green,yellow,blue \"npm run dev:proxy\" \"npm run dev:schema-frontend\" \"npm run dev:schema-backend\" \"npm run dev:excel-frontend\" \"npm run dev:excel-backend\"",
+    "dev:proxy": "node proxy-gateway/server.js",
+    "dev:schema-frontend": "cd schema-rater/frontend && npm run dev -- --host 127.0.0.1 --port 5173",
+    "dev:schema-backend": "cd schema-rater/backend && ..\\.venv\\Scripts\\python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload",
+    "dev:excel-frontend": "cd \"excel-rater/cogitate rater/web-next\" && cross-env NEXT_PUBLIC_API_BASE_URL=http://localhost:8080 npm run dev -- --hostname 127.0.0.1 --port 3000",
+    "dev:excel-backend": "cd \"excel-rater/cogitate rater/backend\" && .\\.venv\\Scripts\\python -m uvicorn main:app --host 127.0.0.1 --port 8001 --reload",
+    "install:frontends": "npm --prefix schema-rater/frontend install && npm --prefix \"excel-rater/cogitate rater/web-next\" install"
+  },
+  "dependencies": {
+    "express": "^4.21.2",
+    "http-proxy-middleware": "^3.0.4"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1",
+    "cross-env": "^7.0.3"
+  }
+}

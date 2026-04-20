@@ -1,0 +1,7 @@
+fastapi
+uvicorn
+openpyxl
+pydantic
+python-multipart
+pytest
+pywin32

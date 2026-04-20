@@ -1,0 +1,62 @@
+
+# =========================
+# Python / Backend
+# =========================
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.coverage
+htmlcov/
+.venv/
+venv/
+venv.bak/
+env/
+# IDEs
+.vscode/
+
+# =========================
+# Node / Frontend 
+# =========================
+node_modules/
+.next/
+out/
+build/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# =========================
+# Project Specific Data Folders
+# =========================
+# Uploads are temporary during tests
+cogitate rater/uploads/
+# Records contain execution run history
+cogitate rater/records/
+# Dump contains old messy test scripts
+cogitate rater/dump/
+dump/
+
+# Temporary / Scratchpad Ad-Hoc Scripts
+fix*.py
+write_md.py
+*TEST_generated.json
+*_preview.json
+
+# --- ADDITIONAL RULES BASED ON USER REQUEST ---
+# Ignore everything in the root folder by default
+/*
+
+# Except the main executable directory and the README
+!/README.md
+!/cogitate rater/
+!/.gitignore
+
+# Ignore useless files in the main folder
+cogitate rater/backend/tests/
+cogitate rater/backend/test_com.py
+cogitate rater/backend/fix2.py
+cogitate rater/backend/fix3.py
+cogitate rater/web-next/src/test/
+cogitate rater/web-next/src/lib/warm-status.test.ts
