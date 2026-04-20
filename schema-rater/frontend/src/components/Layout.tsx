@@ -75,6 +75,14 @@ export default function Layout({ children, mode }: Props) {
             >
               Switch Pathway
             </button>
+
+            {/* Switch Rater Engine */}
+            <a
+              href="/gateway/home"
+              className="text-sm bg-gray-800 text-white px-4 py-1.5 rounded-md hover:bg-gray-700 font-semibold transition-colors shadow-sm ml-2"
+            >
+              Switch Rater Engine
+            </a>
           </div>
         </div>
       </header>
