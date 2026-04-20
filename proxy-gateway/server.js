@@ -46,7 +46,7 @@ function buildEngineCookie(engine) {
 }
 
 function clearEngineCookie() {
-  return `${ENGINE_COOKIE}=; Path=/; HttpOnly; SameSite=Lax; Max-Age=0`;
+  return `${ENGINE_COOKIE}=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax; Max-Age=0`;
 }
 
 app.use("/gateway-static", express.static(PUBLIC_DIR, { index: false }));
@@ -71,6 +71,11 @@ app.post("/gateway/select/:engine", (req, res) => {
 app.post("/gateway/reset", (_req, res) => {
   res.setHeader("Set-Cookie", clearEngineCookie());
   return res.json({ ok: true, redirectTo: "/" });
+});
+
+app.get("/gateway/home", (req, res) => {
+  res.setHeader("Set-Cookie", clearEngineCookie());
+  return res.redirect("/");
 });
 
 const apiProxy = createProxyMiddleware({

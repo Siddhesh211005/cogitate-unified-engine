@@ -76,6 +76,14 @@ export default function SplashScreen({ onSelectPathway }: Props) {
                 </p>
               </button>
             </div>
+            <div className="mt-8 pt-4">
+              <a
+                href="/gateway/home"
+                className="text-sm text-gray-400 hover:text-gray-600 underline underline-offset-4 transition-colors"
+              >
+                Return to Gateway Home
+              </a>
+            </div>
           </div>
         )}
       </div>
