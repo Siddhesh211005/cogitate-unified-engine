@@ -9,6 +9,29 @@ import win32com.client
 
 from engine import _coerce_by_type, _write_schedule_inputs
 
+_EXCEL_ERROR_CODES = {
+    2000: "#NULL!",
+    2007: "#DIV/0!",
+    2015: "#VALUE!",
+    2023: "#REF!",
+    2029: "#NAME?",
+    2036: "#NUM!",
+    2042: "#N/A",
+}
+
+# Observed HRESULT-style error values returned by COM for cell errors.
+_EXCEL_HRESULT_ERRORS = {
+    -2146826246: "#VALUE!",
+}
+
+def _map_excel_error(value: Any) -> Any:
+    if isinstance(value, int):
+        if value in _EXCEL_ERROR_CODES:
+            return _EXCEL_ERROR_CODES[value]
+        if value in _EXCEL_HRESULT_ERRORS:
+            return _EXCEL_HRESULT_ERRORS[value]
+    return value
+
 
 class ComWorksheetAdapter:
     def __init__(self, ws):
@@ -157,6 +180,7 @@ class ExcelWorker(threading.Thread):
             val = self._read_cell(self.sheet_name, cell_ref)
             if isinstance(val, float):
                 val = round(val, 4)
+            val = _map_excel_error(val)
             # Sometimes COM returns None, or bizarre tuple types. We cast it similarly
             outputs[field] = val
         timings["read_ms"] = round((time.perf_counter() - read_start) * 1000, 3)

@@ -1,11 +1,15 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
+const API_BASE = "";
 
 if (typeof window !== 'undefined') {
   console.log('[API Client] Backend URL:', API_BASE);
 }
 
+function buildUrl(path: string) {
+  return `${API_BASE}${path}`;
+}
+
 export async function apiGet<T>(path: string): Promise<T> {
-  const url = `${API_BASE}${path}`;
+  const url = buildUrl(path);
   console.log('[API] GET', url);
   try {
     const res = await fetch(url, { cache: "no-store" });
@@ -22,7 +26,7 @@ export async function apiGet<T>(path: string): Promise<T> {
 }
 
 export async function apiPost<T>(path: string, body: unknown): Promise<T> {
-  const url = `${API_BASE}${path}`;
+  const url = buildUrl(path);
   console.log('[API] POST', url);
   try {
     const res = await fetch(url, {
@@ -47,7 +51,7 @@ export async function apiPost<T>(path: string, body: unknown): Promise<T> {
  * Used for Excel uploads, image uploads, etc.
  */
 export async function apiUploadFormData<T>(path: string, formData: FormData): Promise<T> {
-  const url = `${API_BASE}${path}`;
+  const url = buildUrl(path);
   console.log('[API] UPLOAD', url);
   try {
     const res = await fetch(url, {

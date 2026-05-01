@@ -60,6 +60,11 @@ def health_check():
     return {"status": "ok"}
 
 
+@app.get("/api/health")
+def api_health_check():
+    return {"status": "ok"}
+
+
 # ── Startup: pre-load models for all persisted raters ─────────────────────
 @app.on_event("startup")
 def preload_existing_raters():

@@ -11,8 +11,10 @@ from __future__ import annotations
 import logging
 import threading
 import uuid
+from typing import Any
 
 from fastapi import APIRouter, File, HTTPException, UploadFile
+from pydantic import BaseModel, Field
 
 from app.config import ALLOWED_EXTENSIONS, UPLOAD_MAX_SIZE
 from app.models.schemas import UploadResponse
@@ -25,6 +27,15 @@ logger = logging.getLogger(__name__)
 router = APIRouter(tags=["upload"])
 store = RaterStore()
 generator = SchemaGenerator()
+
+
+class SaveRaterRequest(BaseModel):
+    upload_id: str = Field(alias="upload_id")
+    slug: str = ""
+    name: str = ""
+    description: str = ""
+    source: str = "raters"
+    config: dict[str, Any] | None = None
 
 
 @router.post("/upload", response_model=UploadResponse)
@@ -99,6 +110,34 @@ async def upload_rater(file: UploadFile = File(...)):
         rater_name=schema.rater_name,
         rater_schema=schema,
     )
+
+
+@router.post("/admin/save")
+def save_rater(payload: SaveRaterRequest):
+    """Persist user-facing metadata for an uploaded schema rater."""
+    if not store.rater_exists(payload.upload_id):
+        raise HTTPException(404, f"Rater {payload.upload_id} not found")
+
+    schema = store.load_schema(payload.upload_id)
+    if payload.name.strip():
+        schema.rater_name = payload.name.strip()
+    store.save_schema(payload.upload_id, schema)
+
+    meta = store.update_metadata(payload.upload_id, {
+        "slug": payload.slug.strip() or payload.upload_id,
+        "name": schema.rater_name,
+        "description": payload.description.strip(),
+        "source": payload.source or "raters",
+    })
+
+    return {
+        "saved": True,
+        "rater_id": payload.upload_id,
+        "rater_name": schema.rater_name,
+        "slug": meta.get("slug", payload.upload_id),
+        "description": meta.get("description", ""),
+        "source": meta.get("source", payload.source or "raters"),
+    }
 
 
 @router.get("/raters")

@@ -1,0 +1,424 @@
+{
+  "sheet": "Rater",
+  "inputs": [
+    {
+      "field": "insured_name",
+      "cell": "B1",
+      "type": "text",
+      "label": "Insured Name",
+      "group": "Client Info",
+      "default": "Test Client"
+    },
+    {
+      "field": "address",
+      "cell": "B2",
+      "type": "text",
+      "label": "Address",
+      "group": "Client Info",
+      "default": "1 Main Street Suite 200"
+    },
+    {
+      "field": "city",
+      "cell": "B3",
+      "type": "text",
+      "label": "City",
+      "group": "Client Info",
+      "default": "Colorado Springs"
+    },
+    {
+      "field": "state",
+      "cell": "B4",
+      "type": "text",
+      "label": "State",
+      "group": "Client Info",
+      "default": "CO"
+    },
+    {
+      "field": "zip",
+      "cell": "B5",
+      "type": "number",
+      "label": "Zip Code",
+      "group": "Client Info",
+      "default": 80906
+    },
+    {
+      "field": "phone",
+      "cell": "B6",
+      "type": "text",
+      "label": "Phone",
+      "group": "Client Info",
+      "default": "303-900-2960"
+    },
+    {
+      "field": "web_url",
+      "cell": "B7",
+      "type": "text",
+      "label": "Web URL",
+      "group": "Client Info",
+      "default": "www.one80.com"
+    },
+    {
+      "field": "state_of_risk",
+      "cell": "B11",
+      "type": "dropdown",
+      "label": "State of Risk",
+      "group": "Rating Inputs",
+      "options": [
+        "AK",
+        "AL",
+        "AR",
+        "AZ",
+        "CA",
+        "CO",
+        "CT",
+        "DC",
+        "DE",
+        "FL",
+        "GA",
+        "HI",
+        "IA",
+        "ID",
+        "IL",
+        "IN",
+        "KS",
+        "KY",
+        "LA",
+        "MA",
+        "MD",
+        "ME",
+        "MI",
+        "MN",
+        "MO",
+        "MS",
+        "MT",
+        "NC",
+        "ND",
+        "NE",
+        "NH",
+        "NJ",
+        "NM",
+        "NV",
+        "NY",
+        "OH",
+        "OK",
+        "OR",
+        "PA",
+        "RI",
+        "SC",
+        "SD",
+        "TN",
+        "TX",
+        "UT",
+        "VA",
+        "VT",
+        "WA",
+        "WI",
+        "WV",
+        "WY"
+      ],
+      "default": "CO"
+    },
+    {
+      "field": "class_description",
+      "cell": "B12",
+      "type": "text",
+      "label": "Class Description",
+      "group": "Rating Inputs",
+      "default": "Animal Training Services"
+    },
+    {
+      "field": "base_rate",
+      "cell": "B13",
+      "type": "number",
+      "label": "Base Rate",
+      "group": "Rating Inputs",
+      "default": 800
+    },
+    {
+      "field": "revenue",
+      "cell": "B16",
+      "type": "dropdown",
+      "label": "Annual Revenue",
+      "group": "Rating Inputs",
+      "options": [
+        "$0-$250,000",
+        "$250,001-$500,000",
+        "$500,001-$1,000,000",
+        "$1,000,001-$3,000,000",
+        "$3,000,001-$6,000,000",
+        "$6,000,001-$10,000,000",
+        "$10,000,001-$20,000,000",
+        "$20,000,001-$40,000,000",
+        "$40,000,001-$60,000,000"
+      ],
+      "default": "$3,000,001-$6,000,000"
+    },
+    {
+      "field": "longevity",
+      "cell": "B17",
+      "type": "dropdown",
+      "label": "Longevity",
+      "group": "Rating Inputs",
+      "options": [
+        "10 Years or more in Business",
+        "5-10 Years in Business",
+        "Less than 5 years in Business"
+      ],
+      "default": "Less than 5 years in Business"
+    },
+    {
+      "field": "experience",
+      "cell": "B18",
+      "type": "dropdown",
+      "label": "Claims Experience",
+      "group": "Rating Inputs",
+      "options": [
+        "No claims, last 5 Years",
+        "1 claim withing retention, last 5 years",
+        "1 claim above retention, less than $50,000 last 5 years",
+        "1 claim above $50,000 and less than $100,000 last 5 years",
+        "1 claim $100,000 or more, last 5 years",
+        "2 claims within retention, last 5 years",
+        "2 or more claims, one or more above retention, less than $50,000, last 5 years",
+        "2 or more claims, one or more above $50,000, last 5 years"
+      ],
+      "default": "No claims, last 5 Years"
+    },
+    {
+      "field": "risk_management",
+      "cell": "B19",
+      "type": "dropdown",
+      "label": "Risk Management",
+      "group": "Rating Inputs",
+      "options": [
+        "Demonstrated use of favorable contracts",
+        "Adequate use of contracts",
+        "Less than adequate contract policies"
+      ],
+      "default": "Demonstrated use of favorable contracts"
+    },
+    {
+      "field": "subcontracted",
+      "cell": "B20",
+      "type": "dropdown",
+      "label": "Subcontracted Work",
+      "group": "Rating Inputs",
+      "options": [
+        "Subcontracted Work less than or equal to 25%",
+        "Subcontracted Work greater than 25% and less than 50%",
+        "Subcontracted Work more than 50%"
+      ],
+      "default": "Subcontracted Work less than or equal to 25%"
+    },
+    {
+      "field": "retro_date",
+      "cell": "B21",
+      "type": "dropdown",
+      "label": "Retro Date",
+      "group": "Rating Inputs",
+      "options": [
+        "Retro Date Inception",
+        "One Year or More Prior Acts"
+      ],
+      "default": "Retro Date Inception"
+    },
+    {
+      "field": "deductible",
+      "cell": "B26",
+      "type": "dropdown",
+      "label": "Deductible",
+      "group": "Rating Inputs",
+      "options": [
+        1000,
+        2500,
+        5000,
+        10000,
+        25000,
+        50000,
+        100000
+      ],
+      "default": "5000"
+    },
+    {
+      "field": "limit",
+      "cell": "B31",
+      "type": "dropdown",
+      "label": "Policy Limit",
+      "group": "Rating Inputs",
+      "options": [
+        500000,
+        1000000,
+        2000000,
+        3000000,
+        5000000
+      ],
+      "default": "1000000"
+    },
+    {
+      "field": "split_limit",
+      "cell": "B36",
+      "type": "dropdown",
+      "label": "Split Limit",
+      "group": "Rating Inputs",
+      "options": [
+        "No Split",
+        "500k/1M",
+        "1M/2M",
+        "1M/3M",
+        "1M/5M",
+        "2M/3M",
+        "2M/5M",
+        "3M/5M"
+      ],
+      "default": "No Split"
+    },
+    {
+      "field": "profile_of_jobs",
+      "cell": "I11",
+      "type": "dropdown",
+      "label": "Profile of Jobs",
+      "group": "Individual Risk Assessment",
+      "options": [
+        "Below Average Hazard",
+        "Average hazard",
+        "Above Average Hazard",
+        "Significantly Above Average Hazard"
+      ],
+      "default": "Average hazard"
+    },
+    {
+      "field": "mgmt_credentials",
+      "cell": "I12",
+      "type": "dropdown",
+      "label": "Mgmt Credentials",
+      "group": "Individual Risk Assessment",
+      "options": [
+        "Below Average Hazard",
+        "Average hazard",
+        "Above Average Hazard",
+        "Significantly Above Average Hazard"
+      ],
+      "default": "Below Average Hazard"
+    },
+    {
+      "field": "disciplinary_history",
+      "cell": "I13",
+      "type": "dropdown",
+      "label": "Disciplinary History",
+      "group": "Individual Risk Assessment",
+      "options": [
+        "Below Average Hazard",
+        "Average hazard",
+        "Above Average Hazard",
+        "Significantly Above Average Hazard"
+      ],
+      "default": "Average hazard"
+    },
+    {
+      "field": "staff_changes",
+      "cell": "I14",
+      "type": "dropdown",
+      "label": "Staff Changes",
+      "group": "Individual Risk Assessment",
+      "options": [
+        "Below Average Hazard",
+        "Average hazard",
+        "Above Average Hazard",
+        "Significantly Above Average Hazard"
+      ],
+      "default": "Average hazard"
+    },
+    {
+      "field": "regulatory_environment",
+      "cell": "I15",
+      "type": "dropdown",
+      "label": "Regulatory Environment",
+      "group": "Individual Risk Assessment",
+      "options": [
+        "Below Average Hazard",
+        "Average hazard",
+        "Above Average Hazard",
+        "Significantly Above Average Hazard"
+      ],
+      "default": "Average hazard"
+    },
+    {
+      "field": "industry_issues",
+      "cell": "I16",
+      "type": "dropdown",
+      "label": "Industry Issues",
+      "group": "Individual Risk Assessment",
+      "options": [
+        "Below Average Hazard",
+        "Average hazard",
+        "Above Average Hazard",
+        "Significantly Above Average Hazard"
+      ],
+      "default": "Average hazard"
+    },
+    {
+      "field": "internal_controls",
+      "cell": "I17",
+      "type": "dropdown",
+      "label": "Internal Controls",
+      "group": "Individual Risk Assessment",
+      "options": [
+        "Below Average Hazard",
+        "Average hazard",
+        "Above Average Hazard",
+        "Significantly Above Average Hazard"
+      ],
+      "default": "Average hazard"
+    }
+  ],
+  "outputs": [
+    {
+      "field": "premium",
+      "cell": "B40",
+      "type": "number",
+      "label": "Total Premium",
+      "group": "Results",
+      "primary": true
+    },
+    {
+      "field": "final_multiplier",
+      "cell": "B38",
+      "type": "number",
+      "label": "Final Multiplier",
+      "group": "Results",
+      "primary": false
+    },
+    {
+      "field": "rating_multiple",
+      "cell": "C23",
+      "type": "number",
+      "label": "Rating Multiple",
+      "group": "Results",
+      "primary": false
+    },
+    {
+      "field": "carrier_multiple",
+      "cell": "C22",
+      "type": "number",
+      "label": "Carrier Multiple",
+      "group": "Results",
+      "primary": false
+    },
+    {
+      "field": "individual_risk",
+      "cell": "J18",
+      "type": "number",
+      "label": "Individual Risk",
+      "group": "Results",
+      "primary": false
+    },
+    {
+      "field": "min_deductible",
+      "cell": "B25",
+      "type": "number",
+      "label": "Min Deductible",
+      "group": "Results",
+      "primary": false
+    }
+  ]
+}
