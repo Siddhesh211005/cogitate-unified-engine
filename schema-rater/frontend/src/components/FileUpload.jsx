@@ -1,13 +1,13 @@
 import { useState, useCallback } from 'react'
 import { uploadFile, saveUploadedRater } from '../api'
-import { slugify } from '../normalize'
+import { normalizeUploadResponse, normalizeSchema, slugify } from '../normalize'
 
 /**
- * FileUpload — handles both engine upload flows transparently.
- * Schema engine: proxy returns type="complete" → done in one step.
- * Excel engine:  proxy returns type="pending" → show config review → save.
+ * FileUpload — handles both engine upload flows:
+ *   Schema-rater: single step (upload → done)
+ *   Excel-rater: two steps (upload → preview schema → confirm save)
  */
-export default function FileUpload({ onUploaded }) {
+export default function FileUpload({ engine, onUploaded }) {
   const [dragging, setDragging] = useState(false)
   const [phase, setPhase] = useState('idle')       // idle | uploading | preview | saving | done | error
   const [error, setError] = useState(null)
@@ -27,8 +27,8 @@ export default function FileUpload({ onUploaded }) {
     setError(null)
     setPhase('uploading')
     try {
-      // Proxy returns normalized shape: { type, raterId|uploadId, schema, ... }
-      const normalized = await uploadFile(file)
+      const raw = await uploadFile(file, engine)
+      const normalized = normalizeUploadResponse(raw, engine)
       const previewData = {
         ...normalized,
         uploadId: normalized.uploadId || normalized.raterId,
@@ -36,26 +36,18 @@ export default function FileUpload({ onUploaded }) {
         rawConfig: normalized.rawConfig || normalized.schema,
       }
 
-      if (normalized.type === 'complete') {
-        // Schema engine: one-step complete — no save needed
-        setPhase('done')
-        await onUploaded()
-        setTimeout(reset, 2000)
-      } else {
-        // Excel engine: two-step — show preview
-        setPreview(previewData)
-        setRaterName(
-          previewData.schema?.name ||
-          (previewData.filename || '').replace(/\.[^.]+$/, '')
-        )
-        setRaterDesc('')
-        setPhase('preview')
-      }
+      setPreview(previewData)
+      setRaterName(
+        previewData.schema?.name ||
+        (previewData.filename || '').replace(/\.[^.]+$/, '')
+      )
+      setRaterDesc('')
+      setPhase('preview')
     } catch (e) {
       setError(e.message)
       setPhase('error')
     }
-  }, [onUploaded])
+  }, [engine, onUploaded])
 
   const doSave = async () => {
     if (!preview) return

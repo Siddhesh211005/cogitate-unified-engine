@@ -9,15 +9,15 @@ export default defineConfig({
     babel({ presets: [reactCompilerPreset()] })
   ],
   server: {
-    port: 3000,
+    port: 5173,
     strictPort: true,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:4000',
+        target: 'http://127.0.0.1:8080',
         changeOrigin: true,
       },
       '/gateway': {
-        target: 'http://127.0.0.1:4000',
+        target: 'http://127.0.0.1:8080',
         changeOrigin: true,
       },
     },

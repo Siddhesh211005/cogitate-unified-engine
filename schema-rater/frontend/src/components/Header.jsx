@@ -1,15 +1,9 @@
 import { Link, useLocation } from 'react-router-dom'
-import { resetEngine } from '../api'
 
-export default function Header({ mode = 'admin', engine = null, onReset }) {
+export default function Header({ mode = 'admin', engine = null }) {
   const location = useLocation()
   const isAdmin = location.pathname.startsWith('/admin')
-  const engineLabel = String(engine || '').toLowerCase() === 'schema' ? 'Schema AI' : engine ? 'Excel Native' : null
-
-  async function handleSwitch() {
-    await resetEngine().catch(() => {})
-    onReset?.()
-  }
+  const engineLabel = String(engine || '').toLowerCase() === 'schema' ? 'Schema' : engine ? 'Excel' : null
 
   return (
     <header className="topbar">
@@ -37,14 +31,6 @@ export default function Header({ mode = 'admin', engine = null, onReset }) {
         >
           Client
         </Link>
-        <button
-          id="btn-switch-engine"
-          onClick={handleSwitch}
-          style={{ fontSize: '0.8rem', padding: '4px 12px' }}
-          title="Switch rating engine"
-        >
-          ⇄ Switch Engine
-        </button>
       </div>
     </header>
   )

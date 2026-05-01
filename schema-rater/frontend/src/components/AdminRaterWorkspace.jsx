@@ -1,14 +1,16 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
-import { getRaterConfig, calculateRater, calculateTemplate } from '../api'
-import { buildInitialValues } from '../normalize'
+import { getRaterConfig, getTemplateConfig, calculateRater, calculateTemplate } from '../api'
+import { normalizeSchema, normalizeResult, buildInitialValues } from '../normalize'
 import DynamicForm from './DynamicForm'
 import OutputPanel from './OutputPanel'
 
 /**
  * AdminRaterWorkspace — schema inspector + test calculation workspace.
+ * Opens to the Schema tab by default; switches to Test tab if navigated
+ * with state { testMode: true }.
  */
-export default function AdminRaterWorkspace({ raters }) {
+export default function AdminRaterWorkspace({ engine, raters }) {
   const { id } = useParams()
   const navigate = useNavigate()
   const location = useLocation()
@@ -32,21 +34,23 @@ export default function AdminRaterWorkspace({ raters }) {
     if (!rater) return
     let mounted = true
     setLoading(true); setError('')
-    const source = rater.source || 'raters'
-    getRaterConfig(id, source)
-      .then((schema) => {
-        if (!mounted) return
-        // schema is already normalized by proxy
-        setSchema(schema)
-        const defaults = buildInitialValues(schema)
-        setValues(defaults)
-        setRawJson(JSON.stringify(defaults, null, 2))
-      }).catch((e) => {
-        if (mounted) setError(e.message || 'Failed to load schema')
-      }).finally(() => { if (mounted) setLoading(false) })
+    const load = rater.source === 'templates'
+      ? getTemplateConfig(id, engine)
+      : getRaterConfig(id, engine)
+
+    load.then((raw) => {
+      if (!mounted) return
+      const s = normalizeSchema(raw, engine, id)
+      setSchema(s)
+      const defaults = buildInitialValues(s)
+      setValues(defaults)
+      setRawJson(JSON.stringify(defaults, null, 2))
+    }).catch((e) => {
+      if (mounted) setError(e.message || 'Failed to load schema')
+    }).finally(() => { if (mounted) setLoading(false) })
 
     return () => { mounted = false }
-  }, [id, rater])
+  }, [id, engine, rater])
 
   const runTest = useCallback(async () => {
     let payload = values
@@ -59,16 +63,14 @@ export default function AdminRaterWorkspace({ raters }) {
     abortRef.current = new AbortController()
     setTestError(''); setCalculating(true)
     try {
-      const source = rater?.source || 'raters'
-      const result = source === 'templates'
-        ? await calculateTemplate(id, payload)
-        : await calculateRater(id, payload, source)
-      // result already normalized by proxy
-      setResult(result)
+      const raw = rater?.source === 'templates'
+        ? await calculateTemplate(id, payload, engine)
+        : await calculateRater(id, payload, engine)
+      setResult(normalizeResult(raw, engine))
     } catch (e) {
       if (e.name !== 'AbortError') setTestError(e.message || 'Calculation failed')
     } finally { setCalculating(false) }
-  }, [values, jsonMode, rawJson, id, rater])
+  }, [values, jsonMode, rawJson, id, engine, rater])
 
   const handleChange = useCallback((field, val) => {
     setValues((prev) => {

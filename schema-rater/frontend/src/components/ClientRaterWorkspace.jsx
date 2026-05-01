@@ -1,14 +1,15 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { getRaterConfig, calculateRater, calculateDefaults } from '../api'
-import { buildInitialValues } from '../normalize'
+import { normalizeSchema, normalizeResult, buildInitialValues } from '../normalize'
 import DynamicForm from './DynamicForm'
 import OutputPanel from './OutputPanel'
 
 /**
  * ClientRaterWorkspace — dynamic form + live results side by side.
+ * Auto-calculates with defaults on load; recalculates on manual submit.
  */
-export default function ClientRaterWorkspace({ raters }) {
+export default function ClientRaterWorkspace({ engine, raters }) {
   const { id } = useParams()
   const navigate = useNavigate()
 
@@ -29,18 +30,18 @@ export default function ClientRaterWorkspace({ raters }) {
     if (!rater) return
     let mounted = true
     setSchemaLoading(true); setSchemaError('')
-    const source = rater.source || 'raters'
-    getRaterConfig(id, source)
-      .then((schema) => {
-        // schema already normalized by proxy
+    getRaterConfig(id, engine)
+      .then((raw) => {
         if (!mounted) return
-        setSchema(schema)
-        setValues(buildInitialValues(schema))
+        const s = normalizeSchema(raw, engine, id)
+        setSchema(s)
+        const defaults = buildInitialValues(s)
+        setValues(defaults)
       })
       .catch((e) => { if (mounted) setSchemaError(e.message) })
       .finally(() => { if (mounted) setSchemaLoading(false) })
     return () => { mounted = false }
-  }, [id, rater])
+  }, [id, engine, rater])
 
   // Auto-calculate defaults once schema is loaded
   useEffect(() => {
@@ -49,27 +50,24 @@ export default function ClientRaterWorkspace({ raters }) {
     abortRef.current?.abort()
     abortRef.current = new AbortController()
     setCalculating(true)
-    const source = rater?.source || 'raters'
-    calculateDefaults(id, source)
-      // result already normalized by proxy
-      .then((result) => { if (mounted) setResult(result) })
+
+    calculateDefaults(id, engine)
+      .then((raw) => { if (mounted) setResult(normalizeResult(raw, engine)) })
       .catch((e) => { if (mounted && e.name !== 'AbortError') setCalcError(e.message) })
       .finally(() => { if (mounted) setCalculating(false) })
 
     return () => { mounted = false; abortRef.current?.abort() }
-  }, [schema, id, rater])
+  }, [schema, id, engine])
 
   const runCalc = useCallback((vals) => {
     abortRef.current?.abort()
     abortRef.current = new AbortController()
     setCalcError(''); setCalculating(true)
-    const source = rater?.source || 'raters'
-    calculateRater(id, vals, source)
-      // result already normalized by proxy
-      .then((result) => setResult(result))
+    calculateRater(id, vals, engine)
+      .then((raw) => setResult(normalizeResult(raw, engine)))
       .catch((e) => { if (e.name !== 'AbortError') setCalcError(e.message) })
       .finally(() => setCalculating(false))
-  }, [id, rater])
+  }, [id, engine])
 
   const handleChange = useCallback((field, val) => {
     setValues((prev) => {

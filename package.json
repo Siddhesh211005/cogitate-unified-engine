@@ -5,18 +5,19 @@
   "description": "Unified dev runner for Schema Rater, Excel Rater, and Proxy Gateway",
   "scripts": {
     "predev": "node scripts/stop-dev-ports.cjs",
-    "dev": "concurrently --names PROXY,ROOT-FE,SCHEMA-BE,EXCEL-BE -c cyan,magenta,green,yellow \"npm run dev:proxy\" \"npm run dev:frontend\" \"npm run dev:schema-backend\" \"npm run dev:excel-backend\"",
-    "dev:proxy": "node proxy-gateway/server.js",
+    "dev": "concurrently --names PROXY,FRONTEND,SCHEMA-BE,EXCEL-BE -c cyan,magenta,green,yellow \"npm run dev:proxy\" \"npm run dev:frontend\" \"npm run dev:schema-backend\" \"npm run dev:excel-backend\"",
+    "dev:proxy": "cross-env PORT=4000 node proxy-gateway/server.js",
     "dev:frontend": "cd frontend && npm run dev -- --host 127.0.0.1 --port 3000",
     "dev:schema-frontend": "cd schema-rater/frontend && npm run dev -- --host 127.0.0.1 --port 5173",
-    "dev:schema-backend": "cd schema-rater/backend && ..\\..\\.venv\\Scripts\\python -m uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload",
+    "dev:schema-backend": "cd schema-rater/backend && ..\\..\\.venv\\Scripts\\python -m uvicorn app.main:app --host 127.0.0.1 --port 5002 --reload",
     "dev:excel-frontend": "cd \"excel-rater/cogitate rater/web-next\" && npm run dev -- --hostname 127.0.0.1 --port 3000",
-    "dev:excel-backend": "cd \"excel-rater/cogitate rater/backend\" && ..\\..\\..\\.venv\\Scripts\\python -m uvicorn main:app --host 127.0.0.1 --port 8001 --reload",
+    "dev:excel-backend": "cd \"excel-rater/cogitate rater/backend\" && ..\\..\\..\\.venv\\Scripts\\python -m uvicorn main:app --host 127.0.0.1 --port 5001",
     "install:frontends": "npm --prefix frontend install && npm --prefix schema-rater/frontend install && npm --prefix \"excel-rater/cogitate rater/web-next\" install"
   },
   "dependencies": {
     "express": "^4.21.2",
-    "http-proxy-middleware": "^3.0.4"
+    "http-proxy-middleware": "^3.0.4",
+    "multer": "^2.1.1"
   },
   "devDependencies": {
     "concurrently": "^9.2.1",
