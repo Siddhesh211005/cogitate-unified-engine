@@ -1,15 +1,13 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { deleteRater } from '../api'
-import { slugify } from '../normalize'
 import FileUpload from './FileUpload'
 
 /**
  * AdminDashboard — upload section + rater list table.
- * Props: { raters, onRefresh }
- * No engine prop — the proxy handles all engine differences.
+ * Props: { engine, raters, onRefresh }
  */
-export default function AdminDashboard({ raters = [], onRefresh }) {
+export default function AdminDashboard({ engine, raters = [], onRefresh }) {
   const [q, setQ] = useState('')
   const [busyId, setBusyId] = useState('')
   const [deleteError, setDeleteError] = useState('')
@@ -30,14 +28,14 @@ export default function AdminDashboard({ raters = [], onRefresh }) {
     setDeleteError('')
     setBusyId(rater.id)
     try {
-      await deleteRater(rater.id)
+      await deleteRater(rater.id, engine)
       await onRefresh()
     } catch (e) {
       setDeleteError(e.message || 'Failed to delete rater')
     } finally {
       setBusyId('')
     }
-  }, [onRefresh])
+  }, [engine, onRefresh])
 
   return (
     <div style={{ padding: 20, display: 'grid', gap: 20 }}>
@@ -56,7 +54,7 @@ export default function AdminDashboard({ raters = [], onRefresh }) {
             <p>Upload any Excel-based rater (.xlsx). The engine will parse its schema automatically.</p>
           </div>
         </div>
-        <FileUpload onUploaded={handleUploaded} />
+        <FileUpload engine={engine} onUploaded={handleUploaded} />
       </section>
 
       {/* Rater list */}
@@ -64,7 +62,7 @@ export default function AdminDashboard({ raters = [], onRefresh }) {
         <div className="panel-head">
           <div>
             <h2>Backend Artifacts</h2>
-            <p>Raters loaded from the active backend engine.</p>
+            <p>Raters loaded from the {engine === 'schema' ? 'schema' : 'excel'} backend.</p>
           </div>
           <button onClick={onRefresh}>↻ Refresh</button>
         </div>

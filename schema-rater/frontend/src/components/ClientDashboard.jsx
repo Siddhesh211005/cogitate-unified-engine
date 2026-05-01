@@ -3,9 +3,9 @@ import { Link } from 'react-router-dom'
 
 /**
  * ClientDashboard — card grid of approved raters for client selection.
- * Props: { raters, onRefresh }
+ * Props: { engine, raters, onRefresh }
  */
-export default function ClientDashboard({ raters = [], onRefresh }) {
+export default function ClientDashboard({ engine, raters = [], onRefresh }) {
   // Auto-refresh on window focus
   useEffect(() => {
     const handler = () => onRefresh()
@@ -24,6 +24,10 @@ export default function ClientDashboard({ raters = [], onRefresh }) {
           <p>Select an approved rater to calculate premiums. New raters added by admin appear automatically.</p>
         </div>
         <div className="hero-meta-cards">
+          <article>
+            <span>Engine</span>
+            <strong>{engine === 'schema' ? 'Schema (AI)' : 'Excel (Native)'}</strong>
+          </article>
           <article>
             <span>Available Raters</span>
             <strong>{liveRaters.length}</strong>
