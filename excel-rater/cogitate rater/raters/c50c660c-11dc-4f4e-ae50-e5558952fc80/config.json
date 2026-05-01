@@ -1,0 +1,923 @@
+{
+  "sheet": "Homeowners",
+  "inputs": [
+    {
+      "field": "effective_date",
+      "cell": "E5",
+      "type": "text",
+      "label": "Effective Date",
+      "group": "Property Basics",
+      "default": "2021-07-01"
+    },
+    {
+      "field": "year_built",
+      "cell": "E6",
+      "type": "number",
+      "label": "Year Built",
+      "group": "Property Basics",
+      "default": 1999
+    },
+    {
+      "field": "renovation_year",
+      "cell": "E7",
+      "type": "number",
+      "label": "Renovation Year",
+      "group": "Property Basics",
+      "default": 1999
+    },
+    {
+      "field": "building_limit",
+      "cell": "E8",
+      "type": "number",
+      "label": "Building limit",
+      "group": "Property Basics",
+      "default": 1000000
+    },
+    {
+      "field": "coverage_type",
+      "cell": "E10",
+      "type": "dropdown",
+      "label": "Coverage type",
+      "group": "Property Basics",
+      "options": [
+        "Deluxe house/deluxe contents",
+        "Deluxe house/standard contents",
+        "Deluxe house without contents or with fire contents*"
+      ],
+      "default": "Deluxe house/deluxe contents"
+    },
+    {
+      "field": "territory",
+      "cell": "E12",
+      "type": "dropdown",
+      "label": "Territory",
+      "group": "Property Basics",
+      "options": [
+        3,
+        4,
+        6,
+        7,
+        8,
+        10,
+        11,
+        17,
+        18,
+        20,
+        21,
+        22,
+        24,
+        25,
+        26,
+        28,
+        30,
+        31,
+        32,
+        34,
+        36,
+        38,
+        39,
+        40,
+        51,
+        55,
+        58,
+        67,
+        69,
+        70,
+        72,
+        73,
+        75,
+        76,
+        77,
+        78,
+        79,
+        86,
+        88,
+        89,
+        90,
+        92,
+        93,
+        94,
+        95,
+        98,
+        100,
+        101,
+        102,
+        106,
+        110,
+        112,
+        113,
+        114,
+        116,
+        118,
+        119,
+        122,
+        124,
+        125,
+        127,
+        130,
+        132,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        151,
+        156,
+        157,
+        177,
+        188,
+        189,
+        190
+      ],
+      "default": "3"
+    },
+    {
+      "field": "contents_adjustment",
+      "cell": "E15",
+      "type": "number",
+      "label": "Contents adjustment",
+      "group": "Coverage Adjustments",
+      "default": 0.2
+    },
+    {
+      "field": "other_permanent_structures",
+      "cell": "E16",
+      "type": "number",
+      "label": "Other permanent structures",
+      "group": "Coverage Adjustments",
+      "default": 0.05
+    },
+    {
+      "field": "actual_cash_value",
+      "cell": "E17",
+      "type": "dropdown",
+      "label": "Actual cash value",
+      "group": "Coverage Adjustments",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "mold_remediation_expenses",
+      "cell": "E19",
+      "type": "dropdown",
+      "label": "Mold remediation expenses",
+      "group": "Coverage Adjustments",
+      "options": [
+        0,
+        0.025,
+        0.05,
+        0.1,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "default": "0"
+    },
+    {
+      "field": "greenwise_upgrade",
+      "cell": "E21",
+      "type": "dropdown",
+      "label": "GreenWise upgrade",
+      "group": "Coverage Adjustments",
+      "options": [
+        0,
+        0.1,
+        0.25,
+        0.5,
+        0.75,
+        1
+      ],
+      "default": "0"
+    },
+    {
+      "field": "fire_station",
+      "cell": "E24",
+      "type": "dropdown",
+      "label": "Fire station",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "fire_hydrant",
+      "cell": "E25",
+      "type": "dropdown",
+      "label": "Fire hydrant",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "central_station",
+      "cell": "E26",
+      "type": "dropdown",
+      "label": "Central station",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "zone_hazard",
+      "cell": "E29",
+      "type": "dropdown",
+      "label": "Zone Hazard",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Urban Unzoned",
+        "Non-Wildland/Non-Urban",
+        "Moderate",
+        "High",
+        "Very High"
+      ],
+      "default": "Urban Unzoned"
+    },
+    {
+      "field": "site_hazard",
+      "cell": "E30",
+      "type": "dropdown",
+      "label": "Site Hazard",
+      "group": "Wildfire and Protection",
+      "options": [
+        "No threat",
+        "Moderate",
+        "High",
+        "Very High",
+        "Extreme"
+      ],
+      "default": "No threat"
+    },
+    {
+      "field": "shelter_in_place",
+      "cell": "E33",
+      "type": "dropdown",
+      "label": "Shelter in place",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "no_combustible_exterior",
+      "cell": "E34",
+      "type": "dropdown",
+      "label": "No combustible exterior",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "flame_ember_resistant_vents",
+      "cell": "E35",
+      "type": "dropdown",
+      "label": "Flame/ember resistant vents",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "defensible_space_adjustment",
+      "cell": "E36",
+      "type": "dropdown",
+      "label": "Defensible space adjustment",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Superior",
+        "Normal",
+        "Inferior"
+      ],
+      "default": "Superior"
+    },
+    {
+      "field": "wildfire_suppression_system",
+      "cell": "E37",
+      "type": "dropdown",
+      "label": "Wildfire suppression system",
+      "group": "Wildfire and Protection",
+      "options": [
+        "Auto retardant",
+        "Auto water",
+        "Manual",
+        "None",
+        "Insufficient"
+      ],
+      "default": "Auto retardant"
+    },
+    {
+      "field": "base_deductible_factor",
+      "cell": "E40",
+      "type": "dropdown",
+      "label": "Base deductible factor",
+      "group": "Deductibles",
+      "options": [
+        250,
+        500,
+        1000,
+        2500,
+        5000,
+        7500,
+        10000,
+        25000,
+        50000,
+        100000
+      ],
+      "default": "1000"
+    },
+    {
+      "field": "brush_fire_or_wildfire_deductible",
+      "cell": "E41",
+      "type": "dropdown",
+      "label": "Brush fire or wildfire deductible",
+      "group": "Deductibles",
+      "options": [
+        250,
+        500,
+        1000,
+        2500,
+        5000,
+        7500,
+        10000,
+        25000,
+        50000,
+        100000
+      ],
+      "default": "10000"
+    },
+    {
+      "field": "wind_or_hail_deductible",
+      "cell": "E42",
+      "type": "dropdown",
+      "label": "Wind or hail deductible",
+      "group": "Deductibles",
+      "options": [
+        0.005,
+        0.01,
+        0.02
+      ],
+      "default": "0.005"
+    },
+    {
+      "field": "burglar_alarm",
+      "cell": "E45",
+      "type": "dropdown",
+      "label": "Burglar alarm",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "gated_community",
+      "cell": "E46",
+      "type": "dropdown",
+      "label": "Gated community",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "gated_community_patrol_service",
+      "cell": "E47",
+      "type": "dropdown",
+      "label": "Gated community patrol service",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "residential_sprinkler_system",
+      "cell": "E48",
+      "type": "dropdown",
+      "label": "Residential sprinkler system",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "fire_resistive",
+      "cell": "E49",
+      "type": "dropdown",
+      "label": "Fire resistive",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "suburban_rating",
+      "cell": "E50",
+      "type": "dropdown",
+      "label": "Suburban rating",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "payment_history",
+      "cell": "E51",
+      "type": "dropdown",
+      "label": "Payment history",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "None",
+        "2 years paid in full",
+        "3+ years paid in full"
+      ],
+      "default": "None"
+    },
+    {
+      "field": "lien_free",
+      "cell": "E52",
+      "type": "dropdown",
+      "label": "Lien free",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "portfolio_discount",
+      "cell": "E53",
+      "type": "dropdown",
+      "label": "Portfolio discount",
+      "group": "Discounts and Surcharges",
+      "options": [
+        "Home only",
+        "Home with auto",
+        "Home with valuables at least $250000",
+        "Home with valuables at least $100000"
+      ],
+      "default": "Home with valuables at least $100000"
+    },
+    {
+      "field": "customer_tenure",
+      "cell": "E54",
+      "type": "number",
+      "label": "Customer Tenure",
+      "group": "Discounts and Surcharges",
+      "default": 3
+    },
+    {
+      "field": "risk_tenure",
+      "cell": "E55",
+      "type": "number",
+      "label": "Risk Tenure",
+      "group": "Discounts and Surcharges",
+      "default": 3
+    },
+    {
+      "field": "security_protection",
+      "cell": "E58",
+      "type": "dropdown",
+      "label": "Security protection",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "full_time_caretaker",
+      "cell": "E59",
+      "type": "dropdown",
+      "label": "Full time caretaker",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "signal_continuity_protection",
+      "cell": "E60",
+      "type": "dropdown",
+      "label": "Signal continuity protection",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "perimeter_gate",
+      "cell": "E61",
+      "type": "dropdown",
+      "label": "Perimeter gate",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "sprinkler_system_water_flow_alarm",
+      "cell": "E62",
+      "type": "dropdown",
+      "label": "Sprinkler system water flow alarm",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "temperature_monitoring_system",
+      "cell": "E63",
+      "type": "dropdown",
+      "label": "Temperature monitoring system",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "electrical_power_back",
+      "cell": "E64",
+      "type": "dropdown",
+      "label": "Electrical power back",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "gas_leakage_detector",
+      "cell": "E65",
+      "type": "dropdown",
+      "label": "Gas leakage detector",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "seismic_shutoff_valve",
+      "cell": "E66",
+      "type": "dropdown",
+      "label": "Seismic shutoff valve",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "lightning_protection_system",
+      "cell": "E67",
+      "type": "dropdown",
+      "label": "Lightning protection system",
+      "group": "Superior Protection",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "water_leak_detection",
+      "cell": "E68",
+      "type": "dropdown",
+      "label": "Water leak detection",
+      "group": "Superior Protection",
+      "options": [
+        "None",
+        "Activate central alarm",
+        "Closes master plumbing valve",
+        "Both"
+      ],
+      "default": "None"
+    },
+    {
+      "field": "cancellation",
+      "cell": "E71",
+      "type": "dropdown",
+      "label": "Cancellation",
+      "group": "Loss and Claims",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "roof_covering",
+      "cell": "E72",
+      "type": "dropdown",
+      "label": "Roof covering",
+      "group": "Loss and Claims",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "rented_to_others",
+      "cell": "E73",
+      "type": "dropdown",
+      "label": "Rented to others",
+      "group": "Loss and Claims",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "undervalue",
+      "cell": "E74",
+      "type": "dropdown",
+      "label": "Undervalue",
+      "group": "Loss and Claims",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "renovation_or_construction_surcharge",
+      "cell": "E75",
+      "type": "dropdown",
+      "label": "Renovation or Construction surcharge",
+      "group": "Loss and Claims",
+      "options": [
+        "None",
+        "Major",
+        "Minor"
+      ],
+      "default": "None"
+    },
+    {
+      "field": "vacant_house",
+      "cell": "E76",
+      "type": "dropdown",
+      "label": "Vacant house",
+      "group": "Loss and Claims",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "claims_in_3_years",
+      "cell": "E77",
+      "type": "number",
+      "label": "Claims in 3 years",
+      "group": "Loss and Claims",
+      "default": 0
+    },
+    {
+      "field": "liability_coverage",
+      "cell": "E79",
+      "type": "dropdown",
+      "label": "Liability coverage",
+      "group": "Optional Coverages",
+      "options": [
+        50000,
+        100000,
+        200000,
+        300000,
+        500000,
+        1000000,
+        2000000,
+        3000000,
+        5000000,
+        10000000
+      ],
+      "default": "1000000"
+    },
+    {
+      "field": "house_replacement_cost",
+      "cell": "E81",
+      "type": "dropdown",
+      "label": "House replacement cost",
+      "group": "Optional Coverages",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "No"
+    },
+    {
+      "field": "residence_employee_occasional",
+      "cell": "E84",
+      "type": "dropdown",
+      "label": "Residence Employee Occasional",
+      "group": "Optional Coverages",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "residence_employee_full_time_inservant",
+      "cell": "E85",
+      "type": "number",
+      "label": "Residence Employee Full-time inservant",
+      "group": "Optional Coverages",
+      "default": 1
+    },
+    {
+      "field": "residence_employee_full_time_outservant",
+      "cell": "E86",
+      "type": "number",
+      "label": "Residence Employee Full-time outservant",
+      "group": "Optional Coverages",
+      "default": 1
+    },
+    {
+      "field": "employment_practices_liability",
+      "cell": "E88",
+      "type": "dropdown",
+      "label": "Employment practices liability",
+      "group": "Optional Coverages",
+      "options": [
+        "None",
+        "A",
+        "B"
+      ],
+      "default": "B"
+    },
+    {
+      "field": "family_protection",
+      "cell": "E90",
+      "type": "dropdown",
+      "label": "Family Protection",
+      "group": "Optional Coverages",
+      "options": [
+        "Yes",
+        "No"
+      ],
+      "default": "Yes"
+    },
+    {
+      "field": "homeowners_unit_assessments",
+      "cell": "E92",
+      "type": "number",
+      "label": "Homeowners/unit assessments",
+      "group": "Optional Coverages",
+      "default": 100000
+    },
+    {
+      "field": "landscaping",
+      "cell": "E94",
+      "type": "number",
+      "label": "Landscaping",
+      "group": "Optional Coverages",
+      "default": 100000
+    },
+    {
+      "field": "landscaping_total_trees_excess",
+      "cell": "E95",
+      "type": "number",
+      "label": "Landscaping total trees excess",
+      "group": "Optional Coverages",
+      "default": 0
+    },
+    {
+      "field": "landscaping_most_expensive_tree",
+      "cell": "E96",
+      "type": "number",
+      "label": "Landscaping most expensive tree",
+      "group": "Optional Coverages",
+      "default": 0
+    },
+    {
+      "field": "landscaping_wind_and_hail",
+      "cell": "E97",
+      "type": "number",
+      "label": "Landscaping wind and hail",
+      "group": "Optional Coverages",
+      "default": 0
+    },
+    {
+      "field": "landscaping_sleet_ice_snow",
+      "cell": "E98",
+      "type": "number",
+      "label": "Landscaping sleet ice snow",
+      "group": "Optional Coverages",
+      "default": 0
+    },
+    {
+      "field": "business_property",
+      "cell": "E100",
+      "type": "number",
+      "label": "Business property",
+      "group": "Optional Coverages",
+      "default": 50000
+    },
+    {
+      "field": "student_additional_living_expenses",
+      "cell": "E102",
+      "type": "number",
+      "label": "Student additional living expenses",
+      "group": "Optional Coverages",
+      "default": 5000
+    },
+    {
+      "field": "assisted_living_care_coverage",
+      "cell": "E104",
+      "type": "number",
+      "label": "Assisted living care coverage",
+      "group": "Optional Coverages",
+      "default": 5000
+    }
+  ],
+  "outputs": [
+    {
+      "field": "total_premium",
+      "cell": "J11",
+      "type": "number",
+      "label": "Total premium",
+      "group": "Results",
+      "primary": true
+    },
+    {
+      "field": "adjusted_premium",
+      "cell": "J9",
+      "type": "number",
+      "label": "Adjusted Premium",
+      "group": "Results",
+      "primary": false
+    },
+    {
+      "field": "base_premium",
+      "cell": "J8",
+      "type": "number",
+      "label": "Base premium",
+      "group": "Results",
+      "primary": false
+    },
+    {
+      "field": "dollar_adjustments",
+      "cell": "J10",
+      "type": "number",
+      "label": "Dollar adjustments",
+      "group": "Results",
+      "primary": false
+    },
+    {
+      "field": "refer_flag",
+      "cell": "J12",
+      "type": "text",
+      "label": "Refer",
+      "group": "Results",
+      "primary": false
+    }
+  ]
+}

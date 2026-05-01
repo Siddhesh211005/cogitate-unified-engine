@@ -18,14 +18,14 @@ export function BackendProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const checkBackend = async () => {
       try {
-        const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000";
-        setUrl(apiBase);
+        const apiBase = "";
+        setUrl("same-origin /api");
         
         // Add timeout to avoid hanging indefinitely
         const controller = new AbortController();
         const timeout = setTimeout(() => controller.abort(), 5000);
         
-        const response = await fetch(`${apiBase}/api/health`, { 
+        const response = await fetch(`/api/health`, { 
           cache: "no-store",
           signal: controller.signal
         });

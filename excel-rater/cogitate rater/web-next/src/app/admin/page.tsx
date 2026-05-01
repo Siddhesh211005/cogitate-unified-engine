@@ -155,7 +155,7 @@ export default function AdminPage() {
     setSuccess(null);
 
     try {
-      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000"}/api/admin/test-download`;
+      const url = `/api/admin/test-download`;
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -200,7 +200,7 @@ export default function AdminPage() {
 
     try {
       const actualSlug = saveName.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
-      const url = `${process.env.NEXT_PUBLIC_API_BASE_URL ?? "http://localhost:8000"}/api/admin/save`;
+      const url = `/api/admin/save`;
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

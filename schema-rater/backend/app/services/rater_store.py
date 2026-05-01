@@ -72,6 +72,25 @@ class RaterStore:
 
         return dest
 
+    def update_metadata(self, rater_id: str, updates: dict[str, Any]) -> dict[str, Any]:
+        """Merge additional metadata into the persisted rater record."""
+        rater_dir = self.base_dir / rater_id
+        rater_dir.mkdir(parents=True, exist_ok=True)
+
+        meta_path = rater_dir / "metadata.json"
+        if meta_path.exists():
+            meta = json.loads(meta_path.read_text(encoding="utf-8"))
+        else:
+            meta = {"rater_id": rater_id}
+
+        for key, value in updates.items():
+            if value is not None:
+                meta[key] = value
+
+        meta["rater_id"] = rater_id
+        meta_path.write_text(json.dumps(meta, indent=2), encoding="utf-8")
+        return meta
+
     # ── Read operations ──────────────────────────────────────────────
 
     def load_schema(self, rater_id: str) -> RaterSchema:

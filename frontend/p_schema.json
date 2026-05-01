@@ -1,0 +1,224 @@
+{
+  "schema_version": "3.0.0",
+
+  "metadata": {
+    "rater_id": "uuid-v4",
+    "rater_name": "string",
+    "version": "1.0.0",
+    "line_of_business": "string",
+    "carrier": "string",
+    "source_file": "string",
+    "effective_date": "YYYY-MM-DD",
+    "expiry_date": "YYYY-MM-DD",
+    "status": "draft | active | archived",
+    "created_at": "ISO-8601",
+    "updated_at": "ISO-8601"
+  },
+
+  "sheets": [
+    {
+      "sheet_id": "rater",
+      "sheet_name": "Rater",
+      "sheet_type": "input | lookup | calculation | output",
+      "primary_sheet": true
+    }
+  ],
+
+  "input_fields": [
+    {
+      "field_id": "coverage_type",
+      "label": "Coverage Type",
+      "data_type": "string",
+      "input_mode": "dropdown",
+      "required": true,
+      "order": 1,
+
+      "source": {
+        "sheet_id": "rater",
+        "cell": "E10"
+      },
+
+      "default_value": null,
+
+      "options": {
+        "source_type": "static | lookup",
+        "values": [
+          { "label": "Basic", "value": "Basic" },
+          { "label": "Premium", "value": "Premium" }
+        ],
+        "lookup_table_id": null
+      }
+    }
+  ],
+
+  "intermediate_fields": [
+    {
+      "field_id": "base_rate",
+      "label": "Base Rate",
+      "data_type": "number",
+      "source": {
+        "sheet_id": "rates",
+        "cell": "B2"
+      },
+      "formula_ref": "base_rate_lookup",
+      "is_auditable": true
+    }
+  ],
+
+  "output_fields": [
+    {
+      "field_id": "premium_total",
+      "label": "Premium Total",
+      "data_type": "currency",
+      "format": "INR | USD | GBP",
+
+      "source": {
+        "sheet_id": "rater",
+        "cell": "J11"
+      },
+
+      "formula_ref": "premium_calc",
+      "is_primary_output": true
+    }
+  ],
+
+  "constants": [
+    {
+      "constant_id": "min_premium",
+      "label": "Minimum Premium",
+      "value": 100,
+      "data_type": "number",
+      "source": {
+        "sheet_id": "rates",
+        "cell": "A1"
+      }
+    }
+  ],
+
+  "lookup_tables": [
+    {
+      "table_id": "rate_table",
+      "label": "Base Rate Table",
+      "lookup_type": "exact | range | matrix",
+
+      "source": {
+        "sheet_id": "rates",
+        "range": "A1:C10"
+      },
+
+      "key_columns": ["coverage_type"],
+      "value_column": "rate",
+      "headers": ["coverage_type", "zone", "rate"],
+
+      "data": [
+        { "coverage_type": "Basic", "zone": "A", "rate": 1.2 },
+        { "coverage_type": "Premium", "zone": "A", "rate": 1.8 }
+      ],
+
+      "fallback_value": null
+    }
+  ],
+
+  "formulas": [
+    {
+      "formula_id": "premium_calc",
+      "description": "Final premium = base_rate * sum_insured",
+
+      "source": {
+        "sheet_id": "rater",
+        "cell": "J11"
+      },
+
+      "excel_formula": "=C15*C16",
+
+      "parsed_expression": "multiply(base_rate, sum_insured)",
+
+      "inputs": ["base_rate", "sum_insured"],
+
+      "output_field_id": "premium_total",
+
+      "clamping": {
+        "enabled": true,
+        "min_constant_id": "min_premium",
+        "max": null
+      }
+    }
+  ],
+
+  "dependency_graph": {
+    "premium_total": ["base_rate", "sum_insured"],
+    "base_rate": ["coverage_type"]
+  },
+
+  "field_dependencies": {
+    "deductible": ["coverage_type"]
+  },
+
+  "ui_rules": [
+    {
+      "rule_id": "show_flood_in_fl",
+      "rule_type": "visibility",
+      "target_field_id": "flood_coverage",
+      "action": "show | hide",
+      "when": {
+        "field_id": "state",
+        "operator": "equals | not_equals | greater_than | less_than | in | not_in",
+        "value": "FL"
+      }
+    },
+    {
+      "rule_id": "filter_deductible_by_coverage",
+      "rule_type": "filter_options",
+      "target_field_id": "deductible",
+      "based_on": "coverage_type",
+      "mapping": {
+        "Basic": [1000, 2000],
+        "Premium": [500, 1000, 2000]
+      }
+    }
+  ],
+
+  "schedules": [
+    {
+      "schedule_id": "location_schedule",
+      "label": "Location Schedule",
+      "sheet_id": "rater",
+      "row_range": [10, 20],
+      "max_rows": 10,
+      "formula_ref": "premium_calc",
+      "columns": [
+        { "field_id": "location", "column": "D", "label": "Location", "data_type": "string" },
+        { "field_id": "limit", "column": "E", "label": "Limit", "data_type": "currency" }
+      ]
+    }
+  ],
+
+  "validation_rules": [
+    {
+      "rule_id": "deductible_range",
+      "rule_type": "field_range",
+      "field_ids": ["deductible"],
+      "min": 100,
+      "max": 5000,
+      "condition": "Deductible must be between 100 and 5000",
+      "action": "block",
+      "message": "Deductible must be between $100 and $5,000"
+    },
+    {
+      "rule_id": "refer_high_risk",
+      "rule_type": "refer",
+      "field_ids": ["class_code"],
+      "condition": "class_code == 'high_risk'",
+      "action": "refer",
+      "message": "Refer to underwriter — high risk class code detected"
+    }
+  ],
+
+  "llm_analysis": {
+    "summary": "",
+    "key_drivers": [],
+    "warnings": [],
+    "circular_dependency_warnings": [],
+    "unresolved_cells": []
+  }
+}

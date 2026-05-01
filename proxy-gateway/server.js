@@ -10,7 +10,7 @@ const ENGINE_COOKIE = "cogitate_engine";
 const ENGINE_VALUES = new Set(["schema", "excel"]);
 
 const FRONTEND_TARGETS = {
-  schema: process.env.SCHEMA_FRONTEND_TARGET || "http://127.0.0.1:5173",
+  schema: process.env.SCHEMA_FRONTEND_TARGET || "http://127.0.0.1:3000",
   excel: process.env.EXCEL_FRONTEND_TARGET || "http://127.0.0.1:3000",
 };
 
@@ -104,7 +104,10 @@ const frontendProxy = createProxyMiddleware({
   logLevel: "warn",
 });
 
-app.use("/api", (req, res, next) => {
+app.use((req, res, next) => {
+  if (!req.url || !req.url.startsWith("/api")) {
+    return next();
+  }
   const engine = getSelectedEngine(req);
   if (!engine) {
     return res.status(428).json({
@@ -142,6 +145,17 @@ const server = app.listen(PORT, () => {
   console.log(`[gateway] Excel FE : ${FRONTEND_TARGETS.excel}`);
   console.log(`[gateway] Schema API: ${BACKEND_TARGETS.schema}`);
   console.log(`[gateway] Excel API : ${BACKEND_TARGETS.excel}`);
+});
+
+server.on('error', (err) => {
+  if (err && err.code === 'EADDRINUSE') {
+    console.error(`[gateway] Port ${PORT} is already in use. Stop the existing dev stack and run npm run dev again.`);
+    process.exit(1);
+    return;
+  }
+
+  console.error('[gateway] Unexpected server error:', err);
+  process.exit(1);
 });
 
 server.on("upgrade", (req, socket, head) => {

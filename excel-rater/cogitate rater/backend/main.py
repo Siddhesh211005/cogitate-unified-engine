@@ -118,6 +118,19 @@ def _start_execution_or_raise(upload_id: str, operation: str) -> None:
     )
 
 
+def _wait_for_warm_session(upload_id: str, timeout_sec: float = 30.0) -> dict[str, Any] | None:
+    deadline = time.time() + timeout_sec
+    while time.time() < deadline:
+        session = warm_sessions.get_session(upload_id)
+        if not session:
+            return None
+        state = session.get("state")
+        if state != "warming":
+            return session
+        time.sleep(0.25)
+    return warm_sessions.get_session(upload_id)
+
+
 @app.get("/")
 def root_redirect():
     return RedirectResponse(url="/docs")
@@ -463,13 +476,26 @@ async def api_admin_test_calculate(request: Request):
 
     config = _resolve_session_config(upload_id, payload_config)
 
+    session = _wait_for_warm_session(upload_id, timeout_sec=30.0)
+    if session and session.get("state") == "failed" and not WARM_FAIL_OPEN:
+        raise HTTPException(status_code=503, detail=f"Warm Excel worker failed to start: {session.get('error') or 'unknown error'}")
+
     _start_execution_or_raise(upload_id, "test-calculate")
 
     try:
         try:
             results, meta = engine.calculate_for_upload_session(upload_id, upload_path, config, inputs)
         except Exception as e:
-            if not WARM_FAIL_OPEN:
+            error_text = str(e)
+            should_fallback = WARM_FAIL_OPEN or any(
+                token in error_text
+                for token in (
+                    "Missing active Excel worker",
+                    "Warm Excel worker still starting",
+                    "Active Excel worker failed to start",
+                )
+            )
+            if not should_fallback:
                 raise HTTPException(status_code=500, detail=f"Calculation error: {e}")
             try:
                 results, timings = engine.calculate_with_metrics(upload_path, config, inputs)
@@ -521,6 +547,10 @@ async def api_admin_test_download(request: Request):
 
     config = _resolve_session_config(upload_id, payload_config)
 
+    session = _wait_for_warm_session(upload_id, timeout_sec=30.0)
+    if session and session.get("state") == "failed" and not WARM_FAIL_OPEN:
+        raise HTTPException(status_code=503, detail=f"Warm Excel worker failed to start: {session.get('error') or 'unknown error'}")
+
     _start_execution_or_raise(upload_id, "test-download")
 
     try:
@@ -533,7 +563,16 @@ async def api_admin_test_download(request: Request):
                 keep_file=True,
             )
         except Exception as e:
-            if not WARM_FAIL_OPEN:
+            error_text = str(e)
+            should_fallback = WARM_FAIL_OPEN or any(
+                token in error_text
+                for token in (
+                    "Missing active Excel worker",
+                    "Warm Excel worker still starting",
+                    "Active Excel worker failed to start",
+                )
+            )
+            if not should_fallback:
                 raise HTTPException(status_code=500, detail=f"Calculation error: {e}")
             try:
                 results, timings = engine.calculate_with_metrics(upload_path, config, inputs, keep_file=True)
@@ -657,5 +696,10 @@ def health():
         "raters_count": len(registry.list_raters()),
         "templates_count": len(registry.list_templates()),
     }
+
+
+@app.get("/api/health")
+def api_health():
+    return health()
 
 

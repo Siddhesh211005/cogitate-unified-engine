@@ -49,8 +49,11 @@ LLM_ENABLED: bool = os.environ.get("LLM_ENABLED", "true").lower() in ("1", "true
 # ── CORS ─────────────────────────────────────────────────────────────────
 CORS_ORIGINS = [
     "http://localhost:5173",   # Vite dev server
-    "http://localhost:3000",   # CRA fallback
+    "http://localhost:3000",   # Unified frontend dev server
     "http://127.0.0.1:5173",
+    "http://127.0.0.1:3000",
+    "http://localhost:8080",   # Proxy gateway (production flow)
+    "http://127.0.0.1:8080",
 ]
 
 # ── Parser Heuristics (configurable, not hardcoded) ──────────────────────

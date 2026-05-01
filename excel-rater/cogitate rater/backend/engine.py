@@ -140,8 +140,22 @@ def calculate_for_upload_session(
     keep_file: bool = False,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
     import warm_sessions
-    
+
+    deadline = time.time() + 30.0
     worker = warm_sessions.get_worker(upload_id)
+    session = warm_sessions.get_session(upload_id)
+
+    while time.time() < deadline:
+        if worker and worker.error:
+            break
+        if worker and worker.is_ready and not worker.error:
+            break
+        if not session or session.get("state") != "warming":
+            break
+        time.sleep(0.25)
+        worker = warm_sessions.get_worker(upload_id)
+        session = warm_sessions.get_session(upload_id)
+
     if worker and worker.is_ready and not worker.error:
         warm_sessions.mark_used(upload_id)
         outputs, timings = worker.calculate_sync(input_data, keep_file=keep_file)
@@ -150,5 +164,11 @@ def calculate_for_upload_session(
             "warm_used": True,
             "timings": timings,
         }
-        
+
+    if worker and worker.error:
+        raise RuntimeError(f"Active Excel worker failed to start for upload_id: {upload_id}: {worker.error}")
+
+    if session and session.get("state") == "warming":
+        raise RuntimeError(f"Warm Excel worker still starting for upload_id: {upload_id}")
+
     raise RuntimeError(f"Missing active Excel worker for upload_id: {upload_id}")
